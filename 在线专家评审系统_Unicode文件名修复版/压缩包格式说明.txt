@@ -1,0 +1,7 @@
+支持的参赛作品压缩包格式：
+1. ZIP：浏览器直接解压，兼容性最好，优先推荐。
+2. RAR：通过 libarchive.js 在线 WASM 组件解压。
+3. 7Z：通过 libarchive.js 在线 WASM 组件解压。
+
+注意：RAR 和 7Z 解压时需要浏览器能够访问 jsDelivr CDN。
+如果比赛现场网络受限，建议提前统一转为 ZIP，以免解压组件无法加载。

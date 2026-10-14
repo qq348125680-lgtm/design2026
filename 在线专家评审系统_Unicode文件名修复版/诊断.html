@@ -1,0 +1,58 @@
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Supabase连接诊断</title><link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head><body>
+<div class="wrap" style="max-width:850px">
+<div class="panel">
+<h1>Supabase 连接诊断</h1>
+<p class="muted">这个页面只做检测，不修改数据库。</p>
+<div id="cfg"></div>
+<div style="height:10px"></div>
+<input id="pwd" value="123456" placeholder="管理员口令">
+<div style="height:10px"></div>
+<button class="btn primary" onclick="test()">开始检测</button>
+<pre id="out" style="white-space:pre-wrap;background:#0f172a;color:#e2e8f0;padding:14px;border-radius:10px;min-height:180px"></pre>
+</div></div>
+<script src="config.js"></script>
+<script>
+const o=document.getElementById('out');
+function log(x){o.textContent += x+"\\n";}
+const c=window.APP_CONFIG||{};
+document.getElementById('cfg').innerHTML =
+  '<div class="notice">URL：'+(c.SUPABASE_URL||'未填写')+
+  '<br>Key：'+((c.SUPABASE_ANON_KEY||'').slice(0,18))+'…</div>';
+
+async function test(){
+  o.textContent='';
+  log('1. 检查配置...');
+  if(!c.SUPABASE_URL || c.SUPABASE_URL.includes('YOUR_PROJECT')){log('❌ Project URL 未配置');return}
+  if(!c.SUPABASE_ANON_KEY || c.SUPABASE_ANON_KEY.includes('YOUR_ANON_KEY')){log('❌ Publishable key 未配置');return}
+  log('✅ 配置已填写');
+
+  let client;
+  try{
+    client=supabase.createClient(c.SUPABASE_URL,c.SUPABASE_ANON_KEY,{
+      auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}
+    });
+    log('✅ Supabase 客户端创建成功');
+  }catch(e){log('❌ 创建客户端失败：'+e.message);return}
+
+  log('2. 调用 admin_check...');
+  try{
+    const res=await client.rpc('admin_check',{p_secret:document.getElementById('pwd').value});
+    log('HTTP status: '+res.status+' '+(res.statusText||''));
+    log('data: '+JSON.stringify(res.data));
+    if(res.error){
+      log('❌ RPC错误：'+JSON.stringify(res.error,null,2));
+    }else if(res.data===true){
+      log('✅ admin_check 返回 true，管理员登录链路正常。');
+    }else{
+      log('⚠️ RPC成功，但返回值不是 true。');
+    }
+  }catch(e){
+    log('❌ 浏览器请求异常：'+e.message);
+    log('如果是 Failed to fetch / CORS，建议不要双击 file:// 打开，改用本地 HTTP 或直接部署到 Cloudflare Pages。');
+  }
+}
+</script></body></html>

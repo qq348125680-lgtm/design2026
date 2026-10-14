@@ -1,0 +1,35 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>部署说明</title><link rel="stylesheet" href="style.css"></head><body>
+<div class="wrap" style="max-width:900px"><div class="panel">
+<h1>在线专家评审系统：5分钟部署说明</h1>
+<p class="notice">这套系统本身不需要购买服务器。免费使用 Supabase 保存作品和评分，再把网页免费放到 Cloudflare Pages / Netlify / GitHub Pages 即可。</p>
+<h2>第一步：建免费 Supabase 项目</h2>
+<ol>
+<li>打开 <b>supabase.com</b>，注册并新建 Project。</li>
+<li>进入 <b>SQL Editor</b>，新建 Query。</li>
+<li>打开本压缩包中的 <b>supabase_setup.sql</b>，全选复制进去，点击 Run。<br><b>本修正版已处理 Supabase 的 pgcrypto/crypt 架构问题。</b></li>
+<li>默认管理员口令是 <b>123456</b>。正式比赛前请按 SQL 文件最后一行示例改掉。</li>
+</ol>
+<h2>第二步：填两个参数</h2>
+<ol>
+<li>Supabase 左侧 <b>Project Settings → API</b>。</li>
+<li>复制 <b>Project URL</b> 和 <b>anon public key</b>。</li>
+<li>用记事本打开 <b>config.js</b>，替换 YOUR_PROJECT 和 YOUR_ANON_KEY。</li>
+</ol>
+<h2>第三步：先在本机测试</h2>
+<p>双击 <b>index.html</b>，进入管理后台。管理员口令 123456。先添加1个专家，再上传1个 ZIP 测试。</p>
+<h2>第四步：免费发布到公网</h2>
+<p><b>最省事：</b>使用 Cloudflare Pages 的 Direct Upload，或者 Netlify Drop，把整个文件夹拖进去即可。发布后会得到一个 https://xxxx.pages.dev 或 netlify.app 的网址。</p>
+<p>把 <b>judge.html</b> 的网址生成二维码发给专家，例如：</p>
+<pre>https://你的网址/judge.html</pre>
+<h2>比赛当天专家怎么用</h2>
+<p>扫码 → 输入邀请码 → 左边选 A01/A02 → 右边直接看图片/PDF → 填分 → 保存 → 下一件。</p>
+<h2>注意</h2>
+<ul>
+<li>建议把超大视频、PSD、源工程文件仍作为下载附件；评审用 JPG/PDF 最流畅。</li><li>说明文档中的 DOCX、PPTX、TXT、MD 已支持浏览器内直接查看文字内容，无需专家先下载。</li><li>本修正版已处理中文文件名导致 Supabase Storage 报 <b>Invalid key</b> 的问题：云端对象名自动改成英文安全路径，但专家端仍显示原中文文件名。</li>
+<li>免费额度适合几十件到上百件普通平面作品。若每个 ZIP 都几百 MB，免费存储可能不够。</li>
+<li>比赛结束后从后台导出成绩，再删除 Supabase 项目即可。</li>
+
+<li><b>本版新增：</b>图片点击全屏放大；PDF页内预览；Word/PPT/Excel通过 Office Web Viewer 尽量保持原始排版在线查看；TXT/MD/CSV/JSON 自动整理为可读页面。</li>
+</ul>
+<p><a class="btn primary" href="index.html">打开系统首页</a></p>
+</div></div></body></html>

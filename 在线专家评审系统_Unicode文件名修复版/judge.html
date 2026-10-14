@@ -1,0 +1,46 @@
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>专家评审</title><link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+</head><body>
+<header><div class="brand">专家在线评审 · 匿名盲审</div><div class="spacer"></div><span id="judgeWho" class="muted"></span></header>
+<div class="wrap">
+<div id="setupWarn" class="notice hidden"></div>
+<div id="loginPanel" class="panel" style="max-width:520px;margin:40px auto">
+<h2>专家登录</h2><p class="muted">请输入承办方分配给您的邀请码。</p>
+<input id="judgeCode" placeholder="专家邀请码">
+<div style="height:10px"></div><button class="btn primary" onclick="judgeLogin()">进入评审</button>
+</div>
+
+<div id="app" class="hidden">
+<div class="grid2">
+  <div class="panel">
+    <div class="row"><input id="search" placeholder="搜索作品"><select id="filter"><option value="all">全部</option><option value="todo">未评分</option><option value="done">已评分</option></select></div>
+    <div id="workList" class="worklist" style="margin-top:12px"></div>
+  </div>
+  <div>
+    <div class="panel">
+      <div class="row"><div><h2 id="workTitle" style="margin:0"></h2><div id="workMeta" class="muted"></div></div><div></div><button class="btn" onclick="prevWork()">上一件</button><button class="btn" onclick="nextWork()">下一件</button></div>
+      <div class="tabs"><button class="tab active" data-tab="images" onclick="showTab('images')">作品图片</button><button class="tab" data-tab="pdfs" onclick="showTab('pdfs')">PDF</button><button class="tab" data-tab="docs" onclick="showTab('docs')">说明文档</button><button class="tab" data-tab="all" onclick="showTab('all')">全部文件</button></div>
+      <div id="viewer"></div>
+    </div>
+    <div class="panel scorebox" style="margin-top:16px">
+      <h3>评分</h3>
+      <div id="criteria"></div>
+      <div class="scoreline"><label>专家评语</label><textarea id="comment" rows="3" placeholder="可选"></textarea></div>
+      <div class="scoretotal">总分：<span id="total">0</span></div>
+      <button class="btn primary" onclick="saveScore()">保存本件评分</button>
+      <span id="saveMsg" class="muted" style="margin-left:8px"></span>
+    </div>
+  </div>
+</div></div></div>
+<script src="config.js"></script><script src="common.js"></script><script src="judge.js"></script>
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="forceCloseLightbox(event)">×</button>
+  <img id="lightboxImg" alt="作品大图" onclick="toggleZoom(event)">
+  <div class="lightbox-tip">单击图片放大/还原 · 点击黑色区域关闭</div>
+</div>
+
+</body></html>
