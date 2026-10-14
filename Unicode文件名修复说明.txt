@@ -1,0 +1,26 @@
+Unicode 文件名修复说明
+
+报错：
+unsupported Unicode escape sequence
+
+原因：
+部分 ZIP 是从 Windows / WinRAR / 7-Zip 等不同工具转换来的，ZIP 内部文件名编码可能包含
+“孤立 UTF-16 代理字符（lone surrogate）”。浏览器可以暂时拿到这个字符串，但提交给
+Supabase/PostgreSQL 的 jsonb 时会被严格拒绝，于是出现 unsupported Unicode escape sequence。
+
+本版处理：
+- 正常中文文件名保留；
+- 非法 Unicode 字符自动替换为 �；
+- Windows 反斜杠路径统一改成 /；
+- 清除 NUL 和少量不可见控制字符；
+- 作者/文件夹识别逻辑继续正常工作。
+
+升级：
+1. 不需要再运行新的 SQL。
+2. 把当前配置好的 config.js 复制到本版文件夹。
+3. 重新部署 Netlify。
+4. 重新上传刚才失败的 ZIP。
+
+注意：
+失败上传有可能已经占用了一个编号并留下空作品记录。
+如果后台看到 X05 之类空作品，可以先删除空作品，再重新上传。

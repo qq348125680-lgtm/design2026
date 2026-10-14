@@ -1,0 +1,31 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>本版升级说明</title>
+<link rel="stylesheet" href="style.css"></head><body><div class="wrap" style="max-width:900px"><div class="panel">
+<h1>作品80分 + 说明文档20分 · 多作品识别版</h1>
+<div class="notice"><b>已有 Supabase 项目不用重建。</b>运行一次升级 SQL，再重新部署网页即可。</div>
+
+<h2>先做这两步</h2>
+<ol>
+<li>Supabase → SQL Editor → 运行 <b>升级SQL_作品80说明20.sql</b>。</li>
+<li>把你已经配置好的 <b>config.js</b> 复制到本版文件夹，然后重新发布 Netlify。</li>
+</ol>
+
+<h2>新的评分结构</h2>
+<p><b>作品部分 80 分：</b>三视图24 + 数字视觉20 + 枣庄新兴产业推广20 + IP衍生与前沿性16。</p>
+<p><b>说明文档 20 分：</b>创作思路、主题表达、技术应用、作品一致性、结构逻辑与文字规范。</p>
+<p><b>总分：</b>作品80 + 说明文档20 - 扣分 = 最终得分，满分100分。</p>
+
+<h2>一个学校一个压缩包、里面多人作品怎么处理</h2>
+<p>新版会自动拆分：</p>
+<ol>
+<li>如果压缩包里有“张三 / 李四 / 王五”等多个子文件夹，直接按子文件夹识别为多件作品。</li>
+<li>如果都堆在同一个文件夹里，会按文件名主体自动归并，例如“张三作品.jpg + 张三设计说明.docx”视为一件，“李四作品.jpg + 李四设计说明.docx”视为另一件。</li>
+<li>上传完成后，后台会显示“某压缩包 → 识别为 N 件作品”，并列出识别到的名称，方便你复核。</li>
+</ol>
+
+<h2>匿名规则不变</h2>
+<p>管理员后台能看到原识别名称；专家端只显示 X01 / X02 或 Z01 / Z02，看不到作者、学校、原文件名，也看不到报名表、汇总表、名单、评分表等敏感文件。</p>
+
+<h2>提醒</h2>
+<p>自动识别属于规则判断。如果某学校把多人文件命名得非常混乱，例如所有文件都叫“1.jpg、2.jpg、说明.docx”，系统无法可靠判断作者归属。这种极端情况建议先人工按人建子文件夹再上传。</p>
+</div></div></body></html>

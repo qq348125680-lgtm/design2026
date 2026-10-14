@@ -1,0 +1,54 @@
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>承办方后台</title><link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head><body>
+<header><div class="brand">承办方管理后台</div><div class="spacer"></div><a class="btn small" href="index.html">返回首页</a></header>
+<div class="wrap">
+<div id="setupWarn" class="notice hidden"></div>
+<div id="loginPanel" class="panel" style="max-width:520px;margin:40px auto">
+<h2>管理员登录</h2><p class="muted">首次使用的默认管理员口令在 SQL 文件中设置，可自行修改。</p>
+<input id="adminSecret" type="password" placeholder="管理员口令">
+<div style="height:10px"></div><button class="btn primary" onclick="adminLogin()">进入后台</button>
+</div>
+
+<div id="app" class="hidden">
+<div class="row" style="margin-bottom:16px">
+  <div class="panel"><b>作品数量</b><div id="statWorks" style="font-size:28px;font-weight:800">0</div></div>
+  <div class="panel"><b>专家数量</b><div id="statJudges" style="font-size:28px;font-weight:800">0</div></div>
+  <div class="panel"><b>评分记录</b><div id="statScores" style="font-size:28px;font-weight:800">0</div></div>
+</div>
+
+<div class="grid2">
+  <div>
+    <div class="panel">
+      <h3>① 批量上传作品 ZIP / RAR / 7Z</h3>
+      <p class="muted">一次选择多个 ZIP、RAR 或 7Z。系统会先识别压缩包中是否包含多位参赛者：优先按子文件夹分组，其次按文件名自动归并；每位参赛者生成一个独立作品编号。学生组用 X 开头，职工组用 Z 开头。报名表、汇总表、名单、评分表等敏感文件仅后台可见。</p>
+      <input id="zipFiles" type="file" accept=".zip,.rar,.7z" multiple>
+      <div style="height:10px"></div>
+      <button class="btn primary" onclick="uploadZips()">开始上传</button>
+      <div id="uploadMsg" class="muted" style="margin-top:10px"></div>
+      <div class="progress hidden" id="prog"><div id="progBar" style="width:0"></div></div>
+    </div>
+    <div class="panel" style="margin-top:16px">
+      <h3>② 专家账号</h3>
+      <div class="row"><input id="judgeName" placeholder="专家姓名"><input id="judgeCode" placeholder="邀请码"></div>
+      <div style="height:10px"></div><button class="btn" onclick="addJudge()">添加专家</button>
+      <div id="judgeList" style="margin-top:10px"></div>
+    </div>
+  </div>
+  <div>
+    <div class="panel">
+      <div class="row"><h3 style="margin:0">三评委成绩排名</h3><div></div><button class="btn" onclick="exportCsv()">导出 CSV</button><button class="btn primary" onclick="exportExcel()">导出 Excel</button></div>
+      <div id="summaryWrap" style="overflow:auto;margin-top:12px"></div>
+    </div>
+    <div class="panel" style="margin-top:16px">
+      <h3>作品管理</h3><div id="workManage"></div>
+    </div>
+  </div>
+</div>
+</div></div>
+<script src="config.js"></script><script src="common.js"></script><script src="admin.js"></script>
+</body></html>
